@@ -176,8 +176,6 @@ user=np.array(vals).reshape(1,-1)
 
 # ---------- RUN ----------
 if st.sidebar.button("Simulate Future") and can_run:
-    st.session_state.show_sidebar = False
-    st.experimental_rerun()
 
     baseline,action,improved,all_scenarios=academic_agent(user)
 
