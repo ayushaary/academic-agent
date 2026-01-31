@@ -43,10 +43,6 @@ LABELS = {
 
 st.set_page_config(layout="wide")
 
-# ---------- SIDEBAR STATE ----------
-if "show_sidebar" not in st.session_state:
-    st.session_state.show_sidebar = True
-
 # --------- Premium UI CSS ----------
 st.markdown("""
 <style>
