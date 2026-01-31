@@ -10,8 +10,8 @@ Original file is located at
 import joblib
 import pandas as pd
 
-model = joblib.load("/content/drive/MyDrive/model.pkl")
-features = joblib.load("/content/drive/MyDrive/features.pkl")
+model = joblib.load("model.pkl")
+features = joblib.load("features.pkl")
 
 def academic_agent(user_input):
 
