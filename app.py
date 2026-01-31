@@ -14,8 +14,8 @@ import pandas as pd
 from agent import academic_agent
 
 # ---------------- LOAD ----------------
-features = joblib.load("/content/drive/MyDrive/features.pkl")
-df = pd.read_csv("/content/drive/MyDrive/processed_data.csv")
+features = joblib.load("features.pkl")
+df = pd.read_csv("processed_data.csv")
 means = df[features].mean()
 
 # Human readable labels
