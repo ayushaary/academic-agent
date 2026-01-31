@@ -97,54 +97,55 @@ st.markdown("""
 st.title("🔮 FutureYou AI — Academic Twin")
 st.caption("ML Prediction + Agentic Optimization")
 
-vals = []
+st.sidebar.title("Student Profile")
 
-if st.session_state.show_sidebar:
-    st.sidebar.title("Student Profile")
+vals=[]
 
-    # ---------- SESSION INIT ----------
-    time_features = ["studytime", "traveltime", "freetime", "goout"]
+# ---------- SESSION INIT ----------
+time_features=["studytime","traveltime","freetime","goout"]
 
+for t in time_features:
+    if t not in st.session_state:
+        st.session_state[t]=float(means[t])
+
+# ---------- CATEGORICAL ----------
+sex=st.sidebar.selectbox(LABELS["sex"],["Female","Male"])
+vals.append(1 if sex=="Male" else 0)
+
+address=st.sidebar.selectbox(LABELS["address"],["Rural","Urban"])
+vals.append(1 if address=="Urban" else 0)
+
+yn_cols=["schoolsup","famsup","paid","activities","internet"]
+
+for col in yn_cols:
+    if col in features:
+        c=st.sidebar.selectbox(LABELS[col],["No","Yes"])
+        vals.append(1 if c=="Yes" else 0)
+
+# ---------- HARD TIME CAP ----------
+st.sidebar.markdown("### ⏰ Daily Time Budget (Max 20 hrs)")
+
+prev={t:st.session_state[t] for t in time_features}
+
+for t in time_features:
+    st.sidebar.slider(LABELS[t],0.0,20.0,st.session_state[t],key=t)
+
+total=sum(st.session_state[t] for t in time_features)
+
+if total>20:
     for t in time_features:
-        if t not in st.session_state:
-            st.session_state[t] = float(means[t])
+        if st.session_state[t]!=prev[t]:
+            st.session_state[t]=prev[t]
+            break
+    st.sidebar.error("🚨 Maximum 20 hours exceeded! Slider reverted.")
 
-    # ---------- CATEGORICAL ----------
-    sex = st.sidebar.selectbox(LABELS["sex"], ["Female", "Male"])
-    vals.append(1 if sex == "Male" else 0)
+total=sum(st.session_state[t] for t in time_features)
+st.sidebar.markdown(f"**Used:** {round(total,1)} / 20 hrs")
 
-    address = st.sidebar.selectbox(LABELS["address"], ["Rural", "Urban"])
-    vals.append(1 if address == "Urban" else 0)
+can_run=total<=20
 
-    yn_cols = ["schoolsup", "famsup", "paid", "activities", "internet"]
-
-    for col in yn_cols:
-        if col in features:
-            c = st.sidebar.selectbox(LABELS[col], ["No", "Yes"])
-            vals.append(1 if c == "Yes" else 0)
-
-    # ---------- HARD TIME CAP ----------
-    st.sidebar.markdown("### ⏰ Daily Time (Max 20 hrs)")
-
-    prev = {t: st.session_state[t] for t in time_features}
-
-    for t in time_features:
-        st.sidebar.slider(LABELS[t], 0.0, 20.0, key=t)
-
-    total = sum(st.session_state[t] for t in time_features)
-
-    if total > 20:
-        for t in time_features:
-            if st.session_state[t] != prev[t]:
-                st.session_state[t] = prev[t]
-                break
-        st.sidebar.error("🚨 Maximum 20 hours exceeded! Slider reverted.")
-
-    st.sidebar.markdown(f"**Used:** {round(total,1)} / 20 hrs")
-    can_run = total <= 20
-
-    for t in time_features:
-        vals.append(st.session_state[t])
+for t in time_features:
+    vals.append(st.session_state[t])
 
 # ---------- NUMERIC ----------
 skip=["sex","address"]+yn_cols+time_features
