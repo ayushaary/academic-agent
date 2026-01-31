@@ -214,10 +214,3 @@ if st.sidebar.button("Simulate Future") and can_run:
 
     for a,s in all_scenarios:
         st.write(a,"→ SGPA:",round(s/20*10,2))
-
-ngrok.kill()
-
-ngrok.set_auth_token("38zFEFhZjyTg8aiAD4nkvh3CCkx_7VurjSSCgmd2ggfHCcGYZ")
-
-public_url = ngrok.connect(8501)
-print(public_url)
