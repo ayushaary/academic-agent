@@ -93,7 +93,7 @@ st.markdown("""
 st.title("🔮 FutureYou AI — Academic Twin")
 st.caption("ML Prediction + Agentic Optimization")
 
-st.sidebar.title("🧑‍🎓 Student Profile")
+st.sidebar.title("Student Profile")
 
 vals=[]
 
@@ -119,7 +119,7 @@ for col in yn_cols:
         vals.append(1 if c=="Yes" else 0)
 
 # ---------- HARD TIME CAP ----------
-st.sidebar.markdown("### ⏰ Daily Time Budget (Max 20 hrs)")
+st.sidebar.markdown("### ⏰ Daily Time (Max 20 hrs)")
 
 prev={t:st.session_state[t] for t in time_features}
 
