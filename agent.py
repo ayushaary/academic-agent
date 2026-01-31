@@ -46,6 +46,8 @@ def academic_agent(user_input):
         ("Study +1",{"studytime":1}),
         ("Study +2",{"studytime":2}),
         ("Study +3",{"studytime":3}),
+        ("Absences -1",{"absences":-1}),
+        ("Absences -2",{"absences":-2}),
         ("Absences -3",{"absences":-3}),
         ("Health +1",{"health":1})
     ]
