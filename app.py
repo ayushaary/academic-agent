@@ -103,31 +103,6 @@ time_features=["studytime","traveltime","freetime","goout"]
 for t in time_features:
     if t not in st.session_state:
         st.session_state[t]=float(means[t])
-st.sidebar.markdown("### ⏰ Daily Time Budget (Max 20 hrs)")
-
-st.sidebar.slider(
-    "Study Time (hrs)",
-    0.0, 20.0,
-    key="studytime"
-)
-
-st.sidebar.slider(
-    "Daily Travel Time (hrs)",
-    0.0, 20.0,
-    key="traveltime"
-)
-
-st.sidebar.slider(
-    "Free Time (hrs)",
-    0.0, 20.0,
-    key="freetime"
-)
-
-st.sidebar.slider(
-    "Social Time (hrs)",
-    0.0, 20.0,
-    key="goout"
-)
 
 # ---------- CATEGORICAL ----------
 sex=st.sidebar.selectbox(LABELS["sex"],["Female","Male"])
