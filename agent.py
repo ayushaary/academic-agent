@@ -47,11 +47,7 @@ def academic_agent(user_input):
         ("Study +2",{"studytime":2}),
         ("Study +3",{"studytime":3}),
         ("Absences -3",{"absences":-3}),
-        ("Health +1",{"health":1}),
-        ("GoOut -1",{"goout":-1}),
-        ("Family Support +1",{"famsup":1}),
-        ("Internet +1",{"internet":1}),
-        ("Activities +1",{"activities":1})
+        ("Health +1",{"health":1})
     ]
 
     for name,chg in actions:
