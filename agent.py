@@ -7,61 +7,56 @@ Original file is located at
     https://colab.research.google.com/drive/1HjfuwZy_QpMCpStlPb1SicGD7CfZ3oO3
 """
 
-!pip install xgboost streamlit pyngrok joblib
+import joblib
+import pandas as pd
 
-# Commented out IPython magic to ensure Python compatibility.
-# %%writefile agent.py
-# 
-# import joblib
-# import pandas as pd
-# 
-# model = joblib.load("/content/drive/MyDrive/model.pkl")
-# features = joblib.load("/content/drive/MyDrive/features.pkl")
-# 
-# def academic_agent(user_input):
-# 
-#     user_df = pd.DataFrame(user_input, columns=features)
-# 
-#     # Baseline ML prediction
-#     baseline = model.predict(user_df)[0]
-# 
-#     # Human effort reward
-#     def reward(df):
-#         bonus = 0
-#         if "studytime" in features:
-#             bonus += df["studytime"].values[0]*0.4
-#         if "absences" in features:
-#             bonus += max(0,5-df["absences"].values[0])*0.2
-#         if "health" in features:
-#             bonus += df["health"].values[0]*0.2
-#         return bonus
-# 
-#     baseline += reward(user_df)
-# 
-#     scenarios=[]
-# 
-#     def simulate(changes):
-#         temp=user_df.copy()
-#         for k,v in changes.items():
-#             if k in temp:
-#                 temp[k]+=v
-#         return model.predict(temp)[0]+reward(temp)
-# 
-#     actions=[
-#         ("Study +1",{"studytime":1}),
-#         ("Study +2",{"studytime":2}),
-#         ("Study +3",{"studytime":3}),
-#         ("Absences -3",{"absences":-3}),
-#         ("Health +1",{"health":1}),
-#         ("GoOut -1",{"goout":-1}),
-#         ("Family Support +1",{"famsup":1}),
-#         ("Internet +1",{"internet":1}),
-#         ("Activities +1",{"activities":1})
-#     ]
-# 
-#     for name,chg in actions:
-#         scenarios.append((name,simulate(chg)))
-# 
-#     best_action,best_score=max(scenarios,key=lambda x:x[1])
-# 
-#     return baseline,best_action,best_score,scenarios
+model = joblib.load("/content/drive/MyDrive/model.pkl")
+features = joblib.load("/content/drive/MyDrive/features.pkl")
+
+def academic_agent(user_input):
+
+    user_df = pd.DataFrame(user_input, columns=features)
+
+    # Baseline ML prediction
+    baseline = model.predict(user_df)[0]
+
+    # Human effort reward
+    def reward(df):
+        bonus = 0
+        if "studytime" in features:
+            bonus += df["studytime"].values[0]*0.4
+        if "absences" in features:
+            bonus += max(0,5-df["absences"].values[0])*0.2
+        if "health" in features:
+            bonus += df["health"].values[0]*0.2
+        return bonus
+
+    baseline += reward(user_df)
+
+    scenarios=[]
+
+    def simulate(changes):
+        temp=user_df.copy()
+        for k,v in changes.items():
+            if k in temp:
+                temp[k]+=v
+        return model.predict(temp)[0]+reward(temp)
+
+    actions=[
+        ("Study +1",{"studytime":1}),
+        ("Study +2",{"studytime":2}),
+        ("Study +3",{"studytime":3}),
+        ("Absences -3",{"absences":-3}),
+        ("Health +1",{"health":1}),
+        ("GoOut -1",{"goout":-1}),
+        ("Family Support +1",{"famsup":1}),
+        ("Internet +1",{"internet":1}),
+        ("Activities +1",{"activities":1})
+    ]
+
+    for name,chg in actions:
+        scenarios.append((name,simulate(chg)))
+
+    best_action,best_score=max(scenarios,key=lambda x:x[1])
+
+    return baseline,best_action,best_score,scenarios
