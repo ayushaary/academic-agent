@@ -220,7 +220,5 @@ ngrok.kill()
 
 ngrok.set_auth_token("38zFEFhZjyTg8aiAD4nkvh3CCkx_7VurjSSCgmd2ggfHCcGYZ")
 
-!streamlit run app.py &>/content/logs.txt &
-
 public_url = ngrok.connect(8501)
 print(public_url)
